@@ -1,0 +1,21 @@
+To create and delete a repository in ecr, your credential needs to have the following permissions
+     "ecr:CreateRepository",
+     "ecr:TagResource",
+     "ecr:DeleteRepository"
+There are two ECR managed policies.  You can use one of these managed policies.
+     AmazonEC2ContainerRegistryPowerUser, and 
+     AmazonEC2ContainerRegistryReadOnly
+
+You need to update repo_name and your tags information in the vars.tf file
+Run terraform init, plan, apply
+You will get the URL for your new repo.
+
+Issue the following command get the ecr credential
+aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 305283204878.dkr.ecr.us-west-2.amazonaws.com
+aws ecr get-authorization-token  (will give you the TTL)
+
+you now can push your docker image to the ecr
+   docker build -t my-lamp-docker
+   docker tag my-lamp-docker:latest 305283204878.dkr.ecr.us-west-2.amazonaws.com/my-lamp-docker:latest
+   docker push 305283204878.dkr.ecr.us-west-2.amazonaws.com/my-lamp-docker:latest
+ 
